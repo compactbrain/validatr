@@ -629,8 +629,8 @@
             }
         },
 
-        getElements: function (form) {
-            if (this.formElements) {
+        getElements: function (form, refresh) {
+            if (this.formElements && !refresh) {
                 return this.formElements;
             }
 
@@ -644,6 +644,12 @@
             }
 
             return elements;
+        },
+        
+        refreshElements: function () {
+            this.formElements = this.getElements(this.el, true)
+                .on('valid.' + 'validatr', $.proxy(validElement, this))
+                .on('invalid.' + 'validatr', $.proxy(invalidElement, this));
         },
 
         validateElement: function (element) {
